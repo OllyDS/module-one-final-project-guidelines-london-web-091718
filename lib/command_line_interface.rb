@@ -1,17 +1,7 @@
-def username # Requests users name
-  print "\nPlease enter your name: "
-end
-
-def gets_username # Gets users name
-  username = gets.chomp
-  # User.create(name: username)
-  username
-end
-
 def welcome # Puts out welcome message
-  puts "\nHey #{gets_username}! Welcome to your first day on the job!\n
-Word is that you're a bit of a hotshot, so the company is giving you $1,000,000 to start with.\n
-Check out our analysts list of hottest tech stocks which you can add to your Portfolio.\n"
+  puts "Welcome to the big leagues kid,
+Here's a few quid to gamble on the markets.
+Don't go too wild though, that's the UK Pension pot right there.\n"
 end
 
 def portfolio_name

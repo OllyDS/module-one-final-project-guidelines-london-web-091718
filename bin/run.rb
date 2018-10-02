@@ -1,6 +1,5 @@
 require_relative '../config/environment'
 
-username # Asks for the Username.
 welcome
 portfolio_name
 input = gets_portfolio_name

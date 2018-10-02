@@ -63,8 +63,7 @@ Quantity to Buy: "
     stock_quantity = gets_quantity
     buy_value = stock_quantity * @price
     @portfolio_cash -= buy_value
-    puts "WAHEY - Easy there big spender\n
-    Your remaining cash: $#{@portfolio_cash}\n"
+    puts "WAHEY - Easy there big spender\nYour remaining cash: $#{@portfolio_cash}\n"
   end
 
 end
