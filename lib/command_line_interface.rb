@@ -1,23 +1,21 @@
-def username
+def username # Requests users name
   print "\nPlease enter your name: "
 end
 
-def gets_username
+def gets_username # Gets users name
   username = gets.chomp
   # User.create(name: username)
   username
 end
 
-def welcome
-  puts <<-STRING
-\nHey #{gets_username}! Welcome to your first day on the job!
-Word is that you're a bit of a hotshot, so the company is giving you $1,000,000 to start with.
-Check out our analysts list of hottest tech stocks which you can add to your Portfolio.\n
-  STRING
+def welcome # Puts out welcome message
+  puts "\nHey #{gets_username}! Welcome to your first day on the job!\n
+Word is that you're a bit of a hotshot, so the company is giving you $1,000,000 to start with.\n
+Check out our analysts list of hottest tech stocks which you can add to your Portfolio.\n"
 end
 
 def portfolio_name
-  print "Please name your Portfolio: "
+  print "\nPlease name your Portfolio: "
 end
 
 def gets_portfolio_name
@@ -36,7 +34,7 @@ def loop_1
   get_stock_from_api(stock)
   user_choice_1
   input = user_answer_1
-  user_path_1(input)
+  user_path_1(input, stock)
 end
 
 def stocks_list_table
@@ -67,7 +65,7 @@ def user_choice_1
 Enter 'B' to Buy Stock or 'R' to Return: "
 end
 
-def loop_2
+def loop_2   # Runs a loot to re-enter stock if invalid input
   input = user_answer_1
   user_path_1(input)
 end
@@ -77,22 +75,23 @@ def error_message
 Please enter a valid input: "
 end
 
-def user_answer_1
+def user_answer_1 # B or R
   input = gets.chomp
   input
 end
 
-def user_path_1(input)
+def user_path_1(input, stock)
   if input == 'B'
-    #code to buy stock
+    buy_stock_from_api(stock)
   elsif input == 'R'
     loop_1
   else
     error_message
-    sleep(2)
+    sleep(2)  #pause's to read the error
     loop_2
   end
 end
+
 
 
 # 9.  	Netflix Inc	        NFLX

@@ -21,5 +21,41 @@ def get_stock_from_api(gets_stock_info)
   Today's Lowest Price:   $#{low_px[0].to_f.round(2)}
 
   STRING
-  
+
+end
+
+def buy_stock_from_api(buying_stock)
+  response_string = RestClient.get("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=#{buying_stock}&apikey=93W5SU6PN3ZE4DQV")
+  response_hash = JSON.parse(response_string)
+
+  name = response_hash.map {|k, v| v["01. symbol"]}
+  price_s = response_hash.map {|k, v| v["05. price"]}
+  @price = price_s[0].to_f.round(2)
+  quantity = 1
+  @portfolio_cash = 1000000.00 # CHANGE MEEEEEEE
+
+  print"\n
+Stock Symbol:   #{name[0]}\n
+Current Price:  $#{@price}\n
+
+Please enter the quantity of the stock you wish to buy.
+The minimum amount is 1 share, the only limit on the maximum is the size of your wallet.
+\n
+Your current available cash is $#{@portfolio_cash}.
+Remember to watch your risk! You don't want compliance on your tail!
+\n
+Quantity to Buy: "
+
+  def gets_quantity # Asks for the quantity of shares to buy
+    var = gets.chomp
+    var.to_f
+  end
+
+  def current_portfolio_cash
+    stock_quantity = gets_quantity
+    buy_value = stock_quantity * @price
+    @portfolio_cash -= buy_value
+    puts "\nYour remaining cash: $#{@portfolio_cash}\n"
+  end
+
 end
