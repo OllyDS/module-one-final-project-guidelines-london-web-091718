@@ -4,6 +4,7 @@ end
 
 def gets_username
   username = gets.chomp
+  # User.create(name: username)
   username
 end
 
@@ -61,10 +62,19 @@ def gets_stock_info
   gets.chomp
 end
 
-
 def user_choice_1
   print "Would you like to purchase some of this stock, or return to the menu?\n
 Enter 'B' to Buy Stock or 'R' to Return: "
+end
+
+def loop_2
+  input = user_answer_1
+  user_path_1(input)
+end
+
+def error_message
+  print "\nInvalid response!\n
+Please enter a valid input: "
 end
 
 def user_answer_1
@@ -78,9 +88,12 @@ def user_path_1(input)
   elsif input == 'R'
     loop_1
   else
-    puts "Invalid Response!"
+    error_message
+    sleep(2)
+    loop_2
   end
 end
+
 
 # 9.  	Netflix Inc	        NFLX
 # 10. 	NVIDIA Corp	        NVDA

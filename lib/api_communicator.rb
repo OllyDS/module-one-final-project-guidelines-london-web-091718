@@ -21,4 +21,5 @@ def get_stock_from_api(gets_stock_info)
   Today's Lowest Price:   $#{low_px[0].to_f.round(2)}
 
   STRING
+  
 end
