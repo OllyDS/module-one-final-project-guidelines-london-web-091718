@@ -22,24 +22,3 @@ def get_stock_from_api(gets_stock_info)
 
   STRING
 end
-
-def user_choice_1
-  print <<-STRING
-Would you like to purchase some of this stock, or return to the menu?
-Enter 'B' to Buy Stock or 'R' to Return:
-STRING
-end
-
-def user_answer_1
-  gets.chomp
-end
-
-def user_path_1
-  if user_answer_1 == 'B'
-    #code to buy stock
-  elsif user_answer_1 == 'R'
-    #go into loop_1
-  else
-    puts "Invalid Response!"
-  end
-end

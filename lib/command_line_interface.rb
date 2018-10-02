@@ -24,8 +24,21 @@ def gets_portfolio_name
   portfolio_name
 end
 
+def output_portfolio_name(input)
+  puts "\nHere is a list of stocks you can add to #{input}:\n"
+end
+
+def loop_1
+  stocks_list_table
+  stock_info
+  stock = gets_stock_info
+  get_stock_from_api(stock)
+  user_choice_1
+  input = user_answer_1
+  user_path_1(input)
+end
+
 def stocks_list_table
-  puts "\nHere is a list of stocks you can add to #{gets_portfolio_name}:\n\n"
   table = Terminal::Table.new :headings => ["Stock Name", "Ticker", "Stock Name", "Ticker"] do |t|
   t << ['Apple', 'AAPL', 'Amazon', 'AMZN']
   t << :separator
@@ -37,7 +50,7 @@ def stocks_list_table
   t.add_separator
   t.add_row ['Netflix Inc', 'NFLX', 'NVIDIA Corp', 'NVDA']
   end
-  puts table
+  puts "\n#{table}\n"
 end
 
 def stock_info
@@ -48,6 +61,26 @@ def gets_stock_info
   gets.chomp
 end
 
+
+def user_choice_1
+  print "Would you like to purchase some of this stock, or return to the menu?\n
+Enter 'B' to Buy Stock or 'R' to Return: "
+end
+
+def user_answer_1
+  input = gets.chomp
+  input
+end
+
+def user_path_1(input)
+  if input == 'B'
+    #code to buy stock
+  elsif input == 'R'
+    loop_1
+  else
+    puts "Invalid Response!"
+  end
+end
 
 # 9.  	Netflix Inc	        NFLX
 # 10. 	NVIDIA Corp	        NVDA
