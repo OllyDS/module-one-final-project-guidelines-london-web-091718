@@ -1,11 +1,11 @@
 def welcome # Puts out welcome message
-  puts "Welcome to the big leagues kid,
+  puts "\nWelcome to the big leagues son,
 Here's a few quid to gamble on the markets.
-Don't go too wild though, that's the UK Pension pot right there.\n"
+Don't go too wild though, that's the NHS Pension pot.\n"
 end
 
 def portfolio_name
-  print "\nPlease name your Portfolio: "
+  print "\nGive yer Portfolio a name: "
 end
 
 def gets_portfolio_name
