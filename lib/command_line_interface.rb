@@ -30,11 +30,16 @@ end
 def loop_1
   stocks_list_table
   stock_info
-  stock = gets_stock_info
-  get_stock_from_api(stock)
+  stock_ticker = gets_stock_info
+  stock_hash = get_stock_from_api(stock_ticker)
+  create_stock_instance_from_hash(stock_hash)
   user_choice_1
   input = user_answer_1
-  user_path_1(input, stock)
+  user_path_1(input, stock_ticker)
+end
+
+def create_stock_instance_from_hash(stock_hash)
+  Stock.create(stock_hash)
 end
 
 def stocks_list_table
@@ -81,9 +86,9 @@ def user_answer_1 # B or R
 end
 
 def user_path_1(input, stock)
-  if input == 'B'
+  if input.downcase == 'b'
     buy_stock_from_api(stock)
-  elsif input == 'R'
+  elsif input.downcase == 'r'
     loop_1
   else
     error_message

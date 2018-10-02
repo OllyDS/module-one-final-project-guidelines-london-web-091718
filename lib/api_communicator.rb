@@ -22,6 +22,14 @@ def get_stock_from_api(gets_stock_info)
 
   STRING
 
+  return {
+    name: name[0],
+    price: price[0].to_f.round(2),
+    open: open_px[0].to_f.round(2),
+    high: high_px[0].to_f.round(2),
+    low: low_px[0].to_f.round(2)
+  }
+
 end
 
 def buy_stock_from_api(buying_stock)
@@ -34,16 +42,15 @@ def buy_stock_from_api(buying_stock)
   quantity = 1
   @portfolio_cash = 1000000.00 # CHANGE MEEEEEEE
 
-  print"\n
-Stock Symbol:   #{name[0]}\n
-Current Price:  $#{@price}\n
+  print"
+How much you wanna buy then?
+Smallest is 1 share, but you're better than that...
+Current cash balance is $#{@portfolio_cash}.
+Don't spend it all at once junior!
+\n
+Stock Symbol:   #{name[0]}
+Current Price:  $#{@price}
 
-Please enter the quantity of the stock you wish to buy.
-The minimum amount is 1 share, the only limit on the maximum is the size of your wallet.
-\n
-Your current available cash is $#{@portfolio_cash}.
-Remember to watch your risk! You don't want compliance on your tail!
-\n
 Quantity to Buy: "
 
   def gets_quantity # Asks for the quantity of shares to buy
@@ -51,11 +58,13 @@ Quantity to Buy: "
     var.to_f
   end
 
+
   def current_portfolio_cash
     stock_quantity = gets_quantity
     buy_value = stock_quantity * @price
     @portfolio_cash -= buy_value
-    puts "\nYour remaining cash: $#{@portfolio_cash}\n"
+    puts "WAHEY - Easy there big spender\n
+    Your remaining cash: $#{@portfolio_cash}\n"
   end
 
 end
