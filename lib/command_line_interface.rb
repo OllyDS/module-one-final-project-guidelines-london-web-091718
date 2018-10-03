@@ -1,5 +1,5 @@
 def welcome # Puts out welcome message
-  puts "\nWelcome to the big leagues son,
+  puts "\nWelcome to the big leagues kiddo,
 As it's your first day we'll start you off small.
 Here's a few quid from the NHS pension pot to gamble on the markets.\n"
 end
@@ -11,8 +11,13 @@ end
 def gets_portfolio_name
   portfolio_name = gets.chomp
   #Gets user input, creates Portfolio name, saves instance to .db
-  Portfolio.create(name: portfolio_name, cash: 25000.00)
-  portfolio_name
+  if !portfolio_name.empty?
+    Portfolio.where(name: portfolio_name).delete_all
+    Portfolio.create(name: portfolio_name, cash: 25000.00)
+  else
+    Portfolio.create(name: portfolio_name, cash: 25000.00)
+  end
+  @portfolio_name = portfolio_name
 end
 
 def output_portfolio_name(input) #Outputs Portfolio name
@@ -40,7 +45,7 @@ def stocks_list_table
   table = Terminal::Table.new :headings => ["Stock Name", "Ticker", "Stock Name", "Ticker"] do |t|
   t << ['Apple', 'AAPL', 'Amazon', 'AMZN']
   t << :separator
-  t.add_row ['Microsoft', 'MFST', 'Alphabet', 'GOOG']
+  t.add_row ['Microsoft', 'MSFT', 'Alphabet', 'GOOG']
   t.add_separator
   t.add_row ['Facebook', 'FB', 'Activision Blizzard', 'ATVI']
   t.add_separator
@@ -103,8 +108,15 @@ def user_path_1(input) # stock = stock hash
   end
 end
 
+# def get_portfolio_cash
+#   @portfolio_cash = 0.00
+#   pc = Portfolio.find_by(name: @portfolio_name)
+#   @portfolio_cash = pc.cash
+# end
+
 def buy_stock_quantity #Asks the user for quantity to buy.
-  @portfolio_cash = 25000.00 # CHANGE MEEEEEEE
+  pc = Portfolio.find_by(name: @portfolio_name)
+  @portfolio_cash = pc.cash
   @name = @stock_instance[:name]
   @price = @stock_instance[:price]
 
@@ -118,9 +130,8 @@ Current Price:  $#{@price}
 Quantity to Buy: "
 
   def gets_quantity # Asks for the quantity of shares to buy
-    var = gets.chomp
+    gets.chomp.to_f
     ####### SAVE TO PS.db ########
-    var.to_f
   end
 end
 
@@ -128,7 +139,7 @@ def current_portfolio_cash
   stock_quantity = gets_quantity
   buy_value = stock_quantity * @price
   @portfolio_cash -= buy_value
-  puts "WAHEY - Easy there big spender\nYour remaining cash: $#{@portfolio_cash}\n"
+  puts "WAHEY . Easy there big spender\nYour remaining cash: $#{@portfolio_cash.round(2)}\n"
 end
 
 
