@@ -32,7 +32,6 @@ def loop_1
   stock_hash = get_stock_from_api(stock_ticker)   #Gets stock API info
   create_stock_instance_from_hash(stock_hash)   #Saves to stock .db
   user_choice_1   #Asks user if they want to Buy or Return
-  # input = user_answer_1   #Gets user answer
   user_path_1    #Buy menu or Return to stock table.
 end
 
@@ -162,6 +161,10 @@ def user_path_2 # stock = stock hash
     case input.downcase
     when "c"
       loop_1
+      current_portfolio_cash
+      user_portfolio
+      continue_or_exit
+      user_path_2
       break # make sure to break so you don't ask again
     when "e"
       exit_message
