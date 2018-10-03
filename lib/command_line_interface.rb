@@ -14,11 +14,12 @@ def gets_portfolio_name
   #Gets user input, creates Portfolio name, saves instance to .db
   if !portfolio_name.empty?
     Portfolio.where(name: portfolio_name).delete_all
-    Portfolio.create(name: portfolio_name, cash: 25000.00)
+    pn = Portfolio.create(name: portfolio_name, cash: 25000.00)
   else
-    Portfolio.create(name: portfolio_name, cash: 25000.00)
+    pn = Portfolio.create(name: portfolio_name, cash: 25000.00)
   end
-  @portfolio_name = portfolio_name
+  @portfolio_hash = pn
+  @portfolio_name = pn.name
 end
 
 def output_portfolio_name(input) #Outputs Portfolio name
@@ -64,6 +65,14 @@ def stocks_list_table
   t.add_row ['Adobe Systems', 'ADBE', 'Baidu Inc ADR', 'BIDU']
   t.add_separator
   t.add_row ['Symantec Corp', 'SYMC', 'Starbucks Corp', 'SBUX']
+  t.add_separator
+  t.add_row ['PayPal Holdings', 'PYPL', 'Gilead Sciences', 'GILD']
+  t.add_separator
+  t.add_row ['Booking Holdings', 'BKNG', 'T-Mobile US Inc', 'TMUS']
+  t.add_separator
+  t.add_row ['Micron Technology', 'MU', 'Electronic Arts', 'EA']
+  t.add_separator
+  t.add_row ['Western Digital', 'WDC', 'Seagate Technology', 'STX']
   end
   puts "\n#{table}\n"
 end
@@ -79,11 +88,6 @@ end
 def user_choice_1
   print "Would you like to purchase some of this stock, or return to the menu?\n
 Enter 'B' to Buy Stock or 'R' to Return: "
-end
-
-def loop_2   # Runs a loop to re-enter stock if invalid input
-  input = user_answer_1
-  user_path_1(input)
 end
 
 def error_message
@@ -123,23 +127,27 @@ Current Price:  $#{@price}
 Quantity to Buy: "
 
   def gets_quantity # Asks for the quantity of shares to buy
-    gets.chomp.to_f
-    ####### SAVE TO PS.db ########
+    gets.chomp.to_i
   end
 end
 
 def current_portfolio_cash
   stock_quantity = gets_quantity
+
+  (1..stock_quantity).to_a.each do |i|
+    PortfolioStock.create(portfolio: @portfolio_hash, stock: @stock_instance)
+  end
+
   buy_value = stock_quantity * @price
   @portfolio_cash -= buy_value
-  puts "WAHEY . Easy there big spender\nYour remaining cash: $#{@portfolio_cash.round(2)}\n"
+  puts "\nWAHEY! Easy there big spender\nYour remaining cash: $#{@portfolio_cash.round(2)}\n"
   db_portfolio_cash = Portfolio.find_by(name: @portfolio_name)
   db_portfolio_cash.update(cash: @portfolio_cash)
   #### SAVE QUANTITY TO PS.db ####
 end
 
 def user_portfolio
-  puts @portfolio_name
+  puts "\nPLACEHOLDER INFO #{@portfolio_name}!!\n"
 end
 
 def continue_or_exit
@@ -152,8 +160,8 @@ def gets_continue_or_exit
 end
 
 def exit_message
-  puts "Calling it a day already?
-I knew you were weak! Get out of my sight!"
+  puts "\nCalling it a day already? HAHAHA!!!
+I knew you were weak! Get out of my sight!\n"
 end
 
 def user_path_2 # stock = stock hash
@@ -178,15 +186,3 @@ end
 def system_exit
   system("quit")
 end
-
-
-
-# 17. 	PayPal Holdings    	PYPL
-# 20. 	Gilead Sciences    	GILD
-# 21. 	Booking Holdings   	BKNG
-# 23.   T-Mobile US Inc	    TMUS
-# 25.	  Micron Technology   MU
-# 26.   Electronic Arts   	EA
-# 29.   Western Digital     WDC
-# 30.   Seagate Technology  STX
-#
