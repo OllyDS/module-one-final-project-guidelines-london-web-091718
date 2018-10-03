@@ -32,38 +32,38 @@ def get_stock_from_api(gets_stock_info)
 
 end
 
-def buy_stock_from_api(buying_stock)
-  response_string = RestClient.get("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=#{buying_stock}&apikey=93W5SU6PN3ZE4DQV")
-  response_hash = JSON.parse(response_string)
-
-  name = response_hash.map {|k, v| v["01. symbol"]}
-  price_s = response_hash.map {|k, v| v["05. price"]}
-  @price = price_s[0].to_f.round(2)
-  quantity = 1
-  @portfolio_cash = 1000000.00 # CHANGE MEEEEEEE
-
-  print"
-How much you wanna buy then?
-Smallest is 1 share, but you're better than that...
-Current cash balance is $#{@portfolio_cash}.
-Don't spend it all at once junior!
-\n
-Stock Symbol:   #{name[0]}
-Current Price:  $#{@price}
-
-Quantity to Buy: "
-
-  def gets_quantity # Asks for the quantity of shares to buy
-    var = gets.chomp
-    var.to_f
-  end
-
-
-  def current_portfolio_cash
-    stock_quantity = gets_quantity
-    buy_value = stock_quantity * @price
-    @portfolio_cash -= buy_value
-    puts "WAHEY - Easy there big spender\nYour remaining cash: $#{@portfolio_cash}\n"
-  end
-
-end
+# def buy_stock_from_api(buying_stock)
+#   response_string = RestClient.get("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=#{buying_stock}&apikey=93W5SU6PN3ZE4DQV")
+#   response_hash = JSON.parse(response_string)
+#
+#   name = response_hash.map {|k, v| v["01. symbol"]}
+#   price_s = response_hash.map {|k, v| v["05. price"]}
+#   @price = price_s[0].to_f.round(2)
+#   quantity = 1
+#   @portfolio_cash = 25000.00 # CHANGE MEEEEEEE
+#
+#   print"
+# How much you wanna buy then?
+# Smallest is 1 share, but you're better than that...
+# Current cash balance is $#{@portfolio_cash}.
+# Don't spend it all at once junior!
+# \n
+# Stock Symbol:   #{name[0]}
+# Current Price:  $#{@price}
+#
+# Quantity to Buy: "
+#
+#   def gets_quantity # Asks for the quantity of shares to buy
+#     var = gets.chomp
+#     var.to_f
+#   end
+#
+#
+#   def current_portfolio_cash
+#     stock_quantity = gets_quantity
+#     buy_value = stock_quantity * @price
+#     @portfolio_cash -= buy_value
+#     puts "WAHEY - Easy there big spender\nYour remaining cash: $#{@portfolio_cash}\n"
+#   end
+#
+# end
