@@ -12,6 +12,8 @@ def get_stock_from_api(gets_stock_info)
   high_px = response_hash.map {|k, v| v["03. high"]}
   low_px = response_hash.map {|k, v| v["04. low"]}
 
+  system("clear")
+
   puts <<-STRING
 
   Stock Symbol:           #{name[0]}

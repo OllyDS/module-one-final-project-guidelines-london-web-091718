@@ -1,4 +1,5 @@
 def welcome # Puts out welcome message
+  system("clear")
   puts "\nWelcome to the big leagues kiddo,
 As it's your first day we'll start you off small.
 Here's a few quid from the NHS pension pot to gamble on the markets.\n"
@@ -31,8 +32,7 @@ def loop_1
   stock_hash = get_stock_from_api(stock_ticker)   #Gets stock API info
   create_stock_instance_from_hash(stock_hash)   #Saves to stock .db
   user_choice_1   #Asks user if they want to Buy or Return
-  input = user_answer_1   #Gets user answer
-  user_path_1(input)    #Buy menu or Return to stock table.
+  user_path_1    #Buy menu or Return to stock table.
 end
 
 def create_stock_instance_from_hash(stock_hash)
@@ -81,7 +81,7 @@ def user_choice_1
 Enter 'B' to Buy Stock or 'R' to Return: "
 end
 
-def loop_2   # Runs a loot to re-enter stock if invalid input
+def loop_2   # Runs a loop to re-enter stock if invalid input
   input = user_answer_1
   user_path_1(input)
 end
@@ -91,24 +91,23 @@ def error_message
 Please enter a valid input: "
 end
 
-def user_answer_1 # B or R
-  input = gets.chomp
-  input
-end
-
-def user_path_1(input) # stock = stock hash
-  if input.downcase == 'b'
-    buy_stock_quantity
-  elsif input.downcase == 'r'
-    loop_1
-  else
-    error_message
-    sleep(2)  #pause's to read the error
-    loop_2
+def user_path_1 # stock = stock hash
+  while input = gets.chomp# loop while getting user input
+    case input.downcase
+    when "b"
+      buy_stock_quantity
+      break # make sure to break so you don't ask again
+    when "r"
+      loop_1
+      break # and again
+    else
+      error_message
+    end
   end
 end
 
 def buy_stock_quantity #Asks the user for quantity to buy.
+  system("clear")
   pc = Portfolio.find_by(name: @portfolio_name)
   @portfolio_cash = pc.cash
   @name = @stock_instance[:name]
@@ -116,7 +115,7 @@ def buy_stock_quantity #Asks the user for quantity to buy.
 
   print"How much you wanna buy then?
 Smallest is 1 share, but you're better than that...
-Current cash balance is $#{@portfolio_cash}.
+Current cash balance is $#{@portfolio_cash.round(2)}.
 Don't spend it all at once junior!
 \n
 Stock Symbol:   #{@name}
@@ -134,6 +133,50 @@ def current_portfolio_cash
   buy_value = stock_quantity * @price
   @portfolio_cash -= buy_value
   puts "WAHEY . Easy there big spender\nYour remaining cash: $#{@portfolio_cash.round(2)}\n"
+  db_portfolio_cash = Portfolio.find_by(name: @portfolio_name)
+  db_portfolio_cash.update(cash: @portfolio_cash)
+  #### SAVE QUANTITY TO PS.db ####
+end
+
+def user_portfolio
+  puts @portfolio_name
+end
+
+def continue_or_exit
+  print "Do want to continue or exit?
+Type 'C' to Continue, or 'E' to Exit: "
+end
+
+def gets_continue_or_exit
+  gets.chomp
+end
+
+def exit_message
+  puts "Calling it a day already?
+I knew you were weak! Get out of my sight!"
+end
+
+def user_path_2 # stock = stock hash
+  while input = gets.chomp# loop while getting user input
+    case input.downcase
+    when "c"
+      loop_1
+      current_portfolio_cash
+      user_portfolio
+      continue_or_exit
+      user_path_2
+      break # make sure to break so you don't ask again
+    when "e"
+      exit_message
+      break # and again
+    else
+      error_message
+    end
+  end
+end
+
+def system_exit
+  system("quit")
 end
 
 
