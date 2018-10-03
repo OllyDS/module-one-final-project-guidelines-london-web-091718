@@ -27,12 +27,13 @@ def loop_1
   create_stock_instance_from_hash(stock_hash)   #Saves to stock .db
   user_choice_1   #Asks user if they want to Buy or Return
   input = user_answer_1   #Gets user answer
-  user_path_1(input, stock_ticker)    #Buy menu or Return to stock table.
+  user_path_1(input)    #Buy menu or Return to stock table.
 end
 
 def create_stock_instance_from_hash(stock_hash)
   #Creates an instance of the stock and saves to the .db
-  Stock.create(stock_hash)
+  @stock_instance = Stock.create(stock_hash)
+  @stock_instance
 end
 
 def stocks_list_table
@@ -90,9 +91,9 @@ def user_answer_1 # B or R
   input
 end
 
-def user_path_1(input, stock) # stock = stock hash
+def user_path_1(input) # stock = stock hash
   if input.downcase == 'b'
-    buy_stock_from_api(stock)
+    buy_stock_quantity
   elsif input.downcase == 'r'
     loop_1
   else
@@ -100,6 +101,34 @@ def user_path_1(input, stock) # stock = stock hash
     sleep(2)  #pause's to read the error
     loop_2
   end
+end
+
+def buy_stock_quantity #Asks the user for quantity to buy.
+  @portfolio_cash = 25000.00 # CHANGE MEEEEEEE
+  @name = @stock_instance[:name]
+  @price = @stock_instance[:price]
+
+  print"How much you wanna buy then?
+Smallest is 1 share, but you're better than that...
+Current cash balance is $#{@portfolio_cash}.
+Don't spend it all at once junior!
+\n
+Stock Symbol:   #{@name}
+Current Price:  $#{@price}
+Quantity to Buy: "
+
+  def gets_quantity # Asks for the quantity of shares to buy
+    var = gets.chomp
+    ####### SAVE TO PS.db ########
+    var.to_f
+  end
+end
+
+def current_portfolio_cash
+  stock_quantity = gets_quantity
+  buy_value = stock_quantity * @price
+  @portfolio_cash -= buy_value
+  puts "WAHEY - Easy there big spender\nYour remaining cash: $#{@portfolio_cash}\n"
 end
 
 
