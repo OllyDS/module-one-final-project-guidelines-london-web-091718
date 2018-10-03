@@ -108,12 +108,6 @@ def user_path_1(input) # stock = stock hash
   end
 end
 
-# def get_portfolio_cash
-#   @portfolio_cash = 0.00
-#   pc = Portfolio.find_by(name: @portfolio_name)
-#   @portfolio_cash = pc.cash
-# end
-
 def buy_stock_quantity #Asks the user for quantity to buy.
   pc = Portfolio.find_by(name: @portfolio_name)
   @portfolio_cash = pc.cash
