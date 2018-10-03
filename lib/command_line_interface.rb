@@ -1,5 +1,5 @@
 def welcome # Puts out welcome message
-  puts "\nWelcome to the big leagues son,
+  puts "\nWelcome to the big leagues kid,
 Here's a few quid to gamble on the markets.
 Don't go too wild though, that's the NHS Pension pot.\n"
 end
