@@ -140,7 +140,22 @@ def current_portfolio_cash
     stock_quantity = 1000
   end
 
-  @array_of_user_stocks << @stock_instance.name
+  stock_quantity.times do
+    @array_of_user_stocks << @stock_instance.name
+  end
+  # @array_of_user_stocks << @stock_instance.name.times do |i|
+  #   i.stock_quantity
+  # end
+  # add .times_do(stock_quantity) to end
+
+  @stock_hash = {}
+  @array_of_user_stocks.each do |ticker|
+    if @stock_hash.include?(ticker)
+      @stock_hash[ticker] += 1
+    else
+      @stock_hash[ticker] = 1
+    end
+  end
 
   (1..stock_quantity).to_a.each do |i|
     PortfolioStock.create(portfolio: @portfolio_hash, stock: @stock_instance)
@@ -206,9 +221,23 @@ def user_path_2 # stock = stock hash
   end
 end
 
-
 def display_portfolio
-  array_of_user_stocks = []
+
+  #CREATE TABLE
+
+  def quantity_of_stocks_as_hash
+    stock_hash = {}
+
+    @array_of_user_stocks.each do |ticker|
+      if stock_hash.include?(ticker)
+        stock_hash[ticker] += 1
+      else
+        stock_hash[ticker] = 1
+      end
+    end
+    stock_hash
+  end
+
 end
 
 def system_exit
