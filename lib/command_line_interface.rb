@@ -216,6 +216,7 @@ def user_path_2 # stock = stock hash
       break # make sure to break so you don't ask again
     when "e"
       exit_message
+      system_exit
       break # and again
     else
       error_message
@@ -236,5 +237,5 @@ def display_portfolio
 end
 
 def system_exit
-  system("quit")
+  system 'quit'
 end
