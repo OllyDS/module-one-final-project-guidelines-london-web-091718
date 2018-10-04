@@ -1,6 +1,7 @@
 def welcome # Puts out welcome message
   @array_of_user_stocks = [] # initializes empty array
   system("clear")
+  system 'figlet Stock Market Simulator'
   puts "\nWelcome to the big leagues kiddo,
 As it's your first day we'll start you off small.
 Here's a few quid from the NHS pension pot to gamble on the markets.\n"
@@ -8,7 +9,7 @@ end
 
 def portfolio_name
   print "\nGive your Portfolio a name, and make it good!
-We don't want it making our company look *!&*: "
+We don't want it making our company look ****!: "
 end
 
 def gets_portfolio_name
@@ -46,7 +47,7 @@ end
 
 def stocks_list_table
   system("clear")
-  table = Terminal::Table.new :headings => ["Stock Name", "Ticker", "Stock Name", "Ticker"] do |t|
+  table = Terminal::Table.new :headings => ["Stock Name".bold, "Ticker".bold, "Stock Name".bold, "Ticker".bold] do |t|
   t << ['Apple', 'AAPL', 'Amazon', 'AMZN']
   t << :separator
   t.add_row ['Microsoft', 'MSFT', 'Alphabet', 'GOOG']
@@ -82,7 +83,7 @@ def stocks_list_table
 end
 
 def stock_info
-  print "\nEnter the Ticker of a stock you want to get info on: "
+  print "\nEnter the Ticker of a stock you want to get info on: ".bold
 end
 
 def gets_stock_info
@@ -90,13 +91,13 @@ def gets_stock_info
 end
 
 def user_choice_1
-  print "You gonna buy any of it then or just stare at it all day?\n
-Enter 'B' to Buy Stock or 'R' to Return if you're scared: "
+  puts "You gonna buy any of it then or just stare at it all day?\n".blue.bold
+  print "Enter 'B' to Buy Stock or 'R' to Return if you're scared: ".bold
 end
 
 def error_message
   print "\nInvalid response!\n
-That wasn't even an option! Enter a valid input: "
+That wasn't even an option! Enter a valid input: ".red.bold
 end
 
 def user_path_1 # stock = stock hash
@@ -121,14 +122,16 @@ def buy_stock_quantity #Asks the user for quantity to buy.
   @name = @stock_instance[:name]
   @price = @stock_instance[:price]
 
-  print"How much you wanna buy then?
-Smallest is 1 share, Largest is 1,000, Don't want you getting burnt on day 1.
-Current cash balance is $#{@portfolio_cash.round(2)}.
-Don't spend it all at once junior!
-\n
-Stock Symbol:   #{@name}
-Current Price:  $#{@price}
-Quantity to Buy: "
+  print"\nHow much you wanna buy then?
+Smallest is 1 share, Largest is 1,000, Don't want you getting burnt on day 1.\n"
+  puts "\nCurrent cash balance is $#{@portfolio_cash.round(2)}.".bold
+  puts "Don't spend it all at once junior!\n"
+  print "\n
+  Stock Symbol:     " + "#{@name}".bold
+  print "
+  Current Price:    " + "$#{@price}".bold
+  print "
+  Quantity to Buy:  "
 
   def gets_quantity # Asks for the quantity of shares to buy
     gets.chomp.to_i
@@ -166,13 +169,13 @@ def current_portfolio_cash
   buy_value = stock_quantity * @price
   @portfolio_cash -= buy_value
   if @portfolio_cash > 0.0
-    puts "\nWAHEY! Easy there big spender\nYour remaining cash is: $#{@portfolio_cash.round(2)}\n"
+    puts "\nWAHEY! Easy there big spender\nYour remaining cash is: $#{@portfolio_cash.round(2)}\n".bold
     db_portfolio_cash = Portfolio.find_by(name: @portfolio_name)
     db_portfolio_cash.update(cash: @portfolio_cash)
   else
     puts "Oh dear, you've only gone and blown your BUDGET PUNK!\n
 BIG BOSS, will DEAL with you Shortly!"
-    sleep(3)
+    sleep(1)
     system 'figlet 3'
     sleep(1)
     system 'figlet 2'
@@ -181,7 +184,8 @@ BIG BOSS, will DEAL with you Shortly!"
     sleep(1)
     system 'clear'
     system 'figlet YOURE FIRED!!!'
-    system_exit
+    wipe_everything_after_session
+    exit
   end
 end
 
@@ -192,7 +196,7 @@ end
 
 def continue_or_exit
   print "Do want to continue or exit?
-Type 'C' to Continue, or 'E' to Exit: "
+Type 'C' to Continue, or 'E' to Exit: ".blue
 end
 
 def gets_continue_or_exit
@@ -201,7 +205,7 @@ end
 
 def exit_message
   puts "\nCalling it a day already? HAHAHA!!!
-I knew you were weak! Get out of my sight!\n"
+I knew you were weak! Get out of my sight!\n".red.bold
 end
 
 def user_path_2 # stock = stock hash
@@ -216,7 +220,8 @@ def user_path_2 # stock = stock hash
       break # make sure to break so you don't ask again
     when "e"
       exit_message
-      system_exit
+      wipe_everything_after_session
+      exit
       break # and again
     else
       error_message
@@ -225,17 +230,22 @@ def user_path_2 # stock = stock hash
 end
 
 def display_portfolio
-  table = Terminal::Table.new :title => "#{@portfolio_name}", :headings => ['Stock Ticker', 'Stock Quantity'] do |t|
+  table = Terminal::Table.new :title => "#{@portfolio_name}".bold, :headings => ['Stock Ticker'.bold, 'Stock Quantity'.bold] do |t|
     @stock_hash.each do |x, y|
-      t <<  ["#{x}", "#{y}"]
+      t <<  ["#{x}", "#{y}".blue]
       t << :separator
     end
-    t.add_row ["Remaining Cash Balance: ", "$#{@portfolio_cash.round(2)}"]
+    t.add_row ["Remaining Cash Balance: ".bold, "$#{@portfolio_cash.round(2)}".bold.blue]
   end
-  puts "Here is your current Portfolio:
-\n#{table}\n"
+  puts "\nHere is your current Portfolio:
+\n#{table}\n".bold
 end
 
-def system_exit
-  system 'quit'
+
+#################################
+def wipe_everything_after_session
+  Stock.delete_all
+  PortfolioStock.delete_all
+  Portfolio.delete_all
 end
+##################################

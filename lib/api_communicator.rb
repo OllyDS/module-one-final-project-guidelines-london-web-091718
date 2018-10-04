@@ -14,15 +14,11 @@ def get_stock_from_api(gets_stock_info)
 
   system("clear")
 
-  puts <<-STRING
-
-  Stock Symbol:           #{name[0]}
-  Current Price:          $#{price[0].to_f.round(2)}
-  Today's Opening Price:  $#{open_px[0].to_f.round(2)}
-  Today's Highest Price:  $#{high_px[0].to_f.round(2)}
-  Today's Lowest Price:   $#{low_px[0].to_f.round(2)}
-
-  STRING
+  puts"   Stock Symbol:           " + "#{name[0]}".bold
+  puts"   Current Price:          " + "$#{price[0].to_f.round(2)}".bold
+  puts"   Today's Opening Price:  " + "$#{open_px[0].to_f.round(2)}".bold
+  puts"   Today's Highest Price:  " + "$#{high_px[0].to_f.round(2)}".bold
+  puts"   Today's Lowest Price:   " + "$#{low_px[0].to_f.round(2)}\n".bold
 
   return {
     name: name[0],
