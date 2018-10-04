@@ -2,14 +2,20 @@ def welcome # Puts out welcome message
   @array_of_user_stocks = [] # initializes empty array
   system("clear")
   system 'figlet Stock Market Simulator'
-  puts "\nWelcome to the big leagues kiddo,
+  "Welcome to the big leagues kiddo,
 As it's your first day we'll start you off small.
-Here's a few quid from the NHS pension pot to gamble on the markets.\n"
+Here's a few quid from the NHS pension pot to gamble on the markets.\n".each_char do |c|
+  sleep 0.05
+  print c
+  end
 end
 
 def portfolio_name
-  print "\nGive your Portfolio a name, and make it good!
-We don't want it making our company look ****!: "
+  "\nGive your Portfolio a name, and make it good!
+We don't want it making our company look ****!: ".each_char do |c|
+    sleep 0.05
+    print c
+  end
 end
 
 def gets_portfolio_name
@@ -78,12 +84,18 @@ def stocks_list_table
   t.add_separator
   t.add_row ['Western Digital', 'WDC', 'Seagate Technology', 'STX']
   end
-  puts "\nHere is a list of stocks you can add to #{@portfolio_name}:
-\n#{table}\n"
+  "\nHere is a list of stocks you can add to #{@portfolio_name}:\n".each_char do |c|
+      sleep 0.05
+      print c
+    end
+    puts"\n#{table}\n"
 end
 
 def stock_info
-  print "\nEnter the Ticker of a stock you want to get info on: ".bold
+  "\nEnter the Ticker of a stock you want to get info on: ".bold.each_char do |c|
+      sleep 0.05
+      print c
+    end
 end
 
 def gets_stock_info
@@ -91,8 +103,11 @@ def gets_stock_info
 end
 
 def user_choice_1
-  puts "You gonna buy any of it then or just stare at it all day?\n".blue.bold
-  print "Enter 'B' to Buy Stock or 'R' to Return if you're scared: ".bold
+  "You gonna buy any of it then or just stare at it all day?\n
+Enter 'B' to Buy Stock or 'R' to Return if you're scared: ".each_char do |c|
+    sleep 0.05
+    print c
+  end
 end
 
 def error_message
@@ -115,6 +130,13 @@ def user_path_1 # stock = stock hash
   end
 end
 
+def easter_egg
+ "The Financial Markets brought to you by Dina, Olly and Steve.\n".each_char do |c|
+   sleep 0.5
+   print c
+ end
+end
+
 def buy_stock_quantity #Asks the user for quantity to buy.
   system("clear")
   pc = Portfolio.find_by(name: @portfolio_name)
@@ -122,10 +144,19 @@ def buy_stock_quantity #Asks the user for quantity to buy.
   @name = @stock_instance[:name]
   @price = @stock_instance[:price]
 
-  print"\nHow much you wanna buy then?
-Smallest is 1 share, Largest is 1,000, Don't want you getting burnt on day 1.\n"
-  puts "\nCurrent cash balance is $#{@portfolio_cash.round(2)}.".bold
-  puts "Don't spend it all at once junior!\n"
+  "\nHow much you wanna buy then?
+Smallest is 1 share, Largest is 1,000, Don't want you getting burnt on day 1.\n".each_char do |c|
+    sleep 0.05
+    print c
+  end
+  "\nCurrent cash balance is $#{@portfolio_cash.round(2)}.\n".bold.each_char do |c|
+      sleep 0.05
+      print c
+    end
+  "\nDon't spend it all at once junior!\n".each_char do |c|
+      sleep 0.05
+      print c
+    end
   print "\n
   Stock Symbol:     " + "#{@name}".bold
   print "
@@ -169,12 +200,15 @@ def current_portfolio_cash
   buy_value = stock_quantity * @price
   @portfolio_cash -= buy_value
   if @portfolio_cash > 0.0
-    puts "\nWAHEY! Easy there big spender\nYour remaining cash is: $#{@portfolio_cash.round(2)}\n".bold
+    puts "\nWAHEY! Easy there big spender\nYour remaining cash is: $#{@portfolio_cash.round(2)}\n"
     db_portfolio_cash = Portfolio.find_by(name: @portfolio_name)
     db_portfolio_cash.update(cash: @portfolio_cash)
   else
-    puts "Oh dear, you've only gone and blown your BUDGET PUNK!\n
-BIG BOSS, will DEAL with you Shortly!"
+    "\nOh dear, you've only gone and blown your BUDGET PUNK!\n
+BIG BOSS, will DEAL with you Shortly!\n".each_char do |c|
+  sleep 0.05
+  print c
+  end
     sleep(1)
     system 'figlet 3'
     sleep(1)
@@ -196,7 +230,7 @@ end
 
 def continue_or_exit
   print "Do want to continue or exit?
-Type 'C' to Continue, or 'E' to Exit: ".blue
+Type 'C' to Continue, or 'E' to Exit: "
 end
 
 def gets_continue_or_exit
@@ -223,6 +257,11 @@ def user_path_2 # stock = stock hash
       wipe_everything_after_session
       exit
       break # and again
+    when "flatironschool"
+      easter_egg
+      wipe_everything_after_session
+      exit
+      break # and again
     else
       error_message
     end
@@ -232,13 +271,16 @@ end
 def display_portfolio
   table = Terminal::Table.new :title => "#{@portfolio_name}".bold, :headings => ['Stock Ticker'.bold, 'Stock Quantity'.bold] do |t|
     @stock_hash.each do |x, y|
-      t <<  ["#{x}", "#{y}".blue]
+      t <<  ["#{x}", "#{y}"]
       t << :separator
     end
-    t.add_row ["Remaining Cash Balance: ".bold, "$#{@portfolio_cash.round(2)}".bold.blue]
+    t.add_row ["Remaining Cash Balance: ".bold, "$#{@portfolio_cash.round(2)}".bold]
   end
-  puts "\nHere is your current Portfolio:
-\n#{table}\n".bold
+  "\nHere is your current Portfolio:".each_char do |c|
+      sleep 0.05
+      print c
+  end
+  puts "\n#{table}\n"
 end
 
 
