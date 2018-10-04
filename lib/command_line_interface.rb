@@ -1,4 +1,5 @@
 def welcome # Puts out welcome message
+  @array_of_user_stocks = [] # initializes empty array
   system("clear")
   puts "\nWelcome to the big leagues kiddo,
 As it's your first day we'll start you off small.
@@ -6,7 +7,8 @@ Here's a few quid from the NHS pension pot to gamble on the markets.\n"
 end
 
 def portfolio_name
-  print "\nGive yer Portfolio a name: "
+  print "\nGive your Portfolio a name, and make it good!
+We don't want it making our company look *!&*: "
 end
 
 def gets_portfolio_name
@@ -86,13 +88,13 @@ def gets_stock_info
 end
 
 def user_choice_1
-  print "Would you like to purchase some of this stock, or return to the menu?\n
-Enter 'B' to Buy Stock or 'R' to Return: "
+  print "You gonna buy any of it then or just stare at it all day?\n
+Enter 'B' to Buy Stock or 'R' to Return if you're scared: "
 end
 
 def error_message
   print "\nInvalid response!\n
-Please enter a valid input: "
+That wasn't even an option! Enter a valid input: "
 end
 
 def user_path_1 # stock = stock hash
@@ -118,7 +120,7 @@ def buy_stock_quantity #Asks the user for quantity to buy.
   @price = @stock_instance[:price]
 
   print"How much you wanna buy then?
-Smallest is 1 share, but you're better than that...
+Smallest is 1 share, Largest is 1,000, Don't want you getting burnt on day 1.
 Current cash balance is $#{@portfolio_cash.round(2)}.
 Don't spend it all at once junior!
 \n
@@ -131,8 +133,14 @@ Quantity to Buy: "
   end
 end
 
+
 def current_portfolio_cash
   stock_quantity = gets_quantity
+  if stock_quantity > 1000
+    stock_quantity = 1000
+  end
+
+  @array_of_user_stocks << @stock_instance.name
 
   (1..stock_quantity).to_a.each do |i|
     PortfolioStock.create(portfolio: @portfolio_hash, stock: @stock_instance)
@@ -140,11 +148,26 @@ def current_portfolio_cash
 
   buy_value = stock_quantity * @price
   @portfolio_cash -= buy_value
-  puts "\nWAHEY! Easy there big spender\nYour remaining cash: $#{@portfolio_cash.round(2)}\n"
-  db_portfolio_cash = Portfolio.find_by(name: @portfolio_name)
-  db_portfolio_cash.update(cash: @portfolio_cash)
-  #### SAVE QUANTITY TO PS.db ####
+  if @portfolio_cash > 0.0
+    puts "\nWAHEY! Easy there big spender\nYour remaining cash: $#{@portfolio_cash.round(2)}\n"
+    db_portfolio_cash = Portfolio.find_by(name: @portfolio_name)
+    db_portfolio_cash.update(cash: @portfolio_cash)
+  else
+    puts "Oh dear, you've only gone and blown your BUDGET PUNK!\n
+BIG BOSS, will DEAL with you Shortly!"
+    sleep(3)
+    system 'figlet 3'
+    sleep(1)
+    system 'figlet 2'
+    sleep(1)
+    system 'figlet 1'
+    sleep(1)
+    system 'clear'
+    system 'figlet YOURE FIRED!!!'
+    system_exit
+  end
 end
+
 
 def user_portfolio
   puts "\nPLACEHOLDER INFO #{@portfolio_name}!!\n"
@@ -181,6 +204,11 @@ def user_path_2 # stock = stock hash
       error_message
     end
   end
+end
+
+
+def display_portfolio
+  array_of_user_stocks = []
 end
 
 def system_exit
