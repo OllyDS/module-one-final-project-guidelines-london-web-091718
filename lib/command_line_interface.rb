@@ -1,6 +1,8 @@
 def welcome # Puts out welcome message
+
   @array_of_user_stocks = [] # initializes empty array
   system("clear")
+  system 'figlet TRADING FLOOR'
   puts "\nWelcome to the big leagues kiddo,
 As it's your first day we'll start you off small.
 Here's a few quid from the NHS pension pot to gamble on the markets.\n"
@@ -181,7 +183,7 @@ BIG BOSS, will DEAL with you Shortly!"
     sleep(1)
     system 'clear'
     system 'figlet YOURE FIRED!!!'
-    system_exit
+    abort
   end
 end
 
