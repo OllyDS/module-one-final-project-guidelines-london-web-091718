@@ -6,13 +6,19 @@ You are a new trader and it's your first day on the job. Your goal is to check t
 
 Make sure to not spend all your money at once or go bankrupt!
 
+-----------------------------------------------------
+
 ### Necessary Files
 
-Run 'bundle install' to download the necessary gems. If you have any issues with 'Figlet' you may need to run $ brew install figlet
+Run 'bundle install' to download the necessary gems. If you have any issues with 'Figlet' you may need to run `$ brew install figlet` in your terminal
+
+-----------------------------------------------------
 
 ### Stocks List and Codes
 
 When choosing your stocks, you'll have to use the official stock exchange TICKER. This is the 2-4 letter character code listed alongside each of the stocks in the stock list.
+
+----------------------------------------------------
 
 *API SOURCE*
 
