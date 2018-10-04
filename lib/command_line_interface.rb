@@ -24,9 +24,9 @@ def gets_portfolio_name
   @portfolio_name = pn.name
 end
 
-def output_portfolio_name(input) #Outputs Portfolio name
-  puts "\nHere is a list of stocks you can add to #{input}:\n"
-end
+# def output_portfolio_name(input) #Outputs Portfolio name
+#   puts "\nHere is a list of stocks you can add to #{input}:\n"
+# end
 
 def loop_1
   stocks_list_table   #Displays table of stocks available
@@ -45,6 +45,7 @@ def create_stock_instance_from_hash(stock_hash)
 end
 
 def stocks_list_table
+  system("clear")
   table = Terminal::Table.new :headings => ["Stock Name", "Ticker", "Stock Name", "Ticker"] do |t|
   t << ['Apple', 'AAPL', 'Amazon', 'AMZN']
   t << :separator
@@ -76,7 +77,8 @@ def stocks_list_table
   t.add_separator
   t.add_row ['Western Digital', 'WDC', 'Seagate Technology', 'STX']
   end
-  puts "\n#{table}\n"
+  puts "\nHere is a list of stocks you can add to #{@portfolio_name}:
+\n#{table}\n"
 end
 
 def stock_info
@@ -164,7 +166,7 @@ def current_portfolio_cash
   buy_value = stock_quantity * @price
   @portfolio_cash -= buy_value
   if @portfolio_cash > 0.0
-    puts "\nWAHEY! Easy there big spender\nYour remaining cash: $#{@portfolio_cash.round(2)}\n"
+    puts "\nWAHEY! Easy there big spender\nYour remaining cash is: $#{@portfolio_cash.round(2)}\n"
     db_portfolio_cash = Portfolio.find_by(name: @portfolio_name)
     db_portfolio_cash.update(cash: @portfolio_cash)
   else
@@ -185,7 +187,7 @@ end
 
 
 def user_portfolio
-  puts "\nPLACEHOLDER INFO #{@portfolio_name}!!\n"
+  display_portfolio
 end
 
 def continue_or_exit
@@ -222,22 +224,15 @@ def user_path_2 # stock = stock hash
 end
 
 def display_portfolio
-
-  #CREATE TABLE
-
-  def quantity_of_stocks_as_hash
-    stock_hash = {}
-
-    @array_of_user_stocks.each do |ticker|
-      if stock_hash.include?(ticker)
-        stock_hash[ticker] += 1
-      else
-        stock_hash[ticker] = 1
-      end
+  table = Terminal::Table.new :title => "#{@portfolio_name}", :headings => ['Stock Ticker', 'Stock Quantity'] do |t|
+    @stock_hash.each do |x, y|
+      t <<  ["#{x}", "#{y}"]
+      t << :separator
     end
-    stock_hash
+    t.add_row ["Remaining Cash Balance: ", "$#{@portfolio_cash.round(2)}"]
   end
-
+  puts "Here is your current Portfolio:
+\n#{table}\n"
 end
 
 def system_exit
