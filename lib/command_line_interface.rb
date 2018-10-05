@@ -38,11 +38,12 @@ end
 def loop_1
   stocks_list_table   #Displays table of stocks available
   stock_info  #Asks user for stock Ticker
-  stock_ticker = gets_stock_info.upcase  #User enters Ticker
-  stock_hash = get_stock_from_api(stock_ticker)   #Gets stock API info
-  create_stock_instance_from_hash(stock_hash)   #Saves to stock .db
-  user_choice_1   #Asks user if they want to Buy or Return
-  user_path_1    #Buy menu or Return to stock table.
+  # The below code is the original master
+  # stock_ticker = gets_stock_info.upcase  #User enters Ticker
+  # stock_hash = get_stock_from_api(stock_ticker)   #Gets stock API info
+  # create_stock_instance_from_hash(stock_hash)   #Saves to stock .db
+  # user_choice_1   #Asks user if they want to Buy or Return
+  # user_path_1    #Buy menu or Return to stock table.
 end
 
 def create_stock_instance_from_hash(stock_hash)
@@ -53,42 +54,42 @@ end
 
 def stocks_list_table
   system("clear")
-  table = Terminal::Table.new :headings => ["Stock Name".bold, "Ticker".bold, "Stock Name".bold, "Ticker".bold] do |t|
-  t << ['Apple', 'AAPL', 'Amazon', 'AMZN']
-  t << :separator
-  t.add_row ['Microsoft', 'MSFT', 'Alphabet', 'GOOG']
-  t.add_separator
-  t.add_row ['Facebook', 'FB', 'Activision Blizzard', 'ATVI']
-  t.add_separator
-  t.add_row ['Cisco Systems', 'CSCO', 'Intel Corp', 'INTC']
-  t.add_separator
-  t.add_row ['Netflix Inc', 'NFLX', 'NVIDIA Corp', 'NVDA']
-  t.add_separator
-  t.add_row ['PepsiCo', 'PEP', 'Amgen', 'AMGN']
-  t.add_separator
-  t.add_row ['Broadcom', 'AVGO', 'QUALCOMM', 'QCOM']
-  t.add_separator
-  t.add_row ['Costco', 'COST', 'eBay', 'EBAY']
-  t.add_separator
-  t.add_row ['Tesla Inc', 'TSLA', 'Comcast Corp', 'CMCSA']
-  t.add_separator
-  t.add_row ['Adobe Systems', 'ADBE', 'Baidu Inc ADR', 'BIDU']
-  t.add_separator
-  t.add_row ['Symantec Corp', 'SYMC', 'Starbucks Corp', 'SBUX']
-  t.add_separator
-  t.add_row ['PayPal Holdings', 'PYPL', 'Gilead Sciences', 'GILD']
-  t.add_separator
-  t.add_row ['Booking Holdings', 'BKNG', 'T-Mobile US Inc', 'TMUS']
-  t.add_separator
-  t.add_row ['Micron Technology', 'MU', 'Electronic Arts', 'EA']
-  t.add_separator
-  t.add_row ['Western Digital', 'WDC', 'Seagate Technology', 'STX']
+  @table = Terminal::Table.new :headings => ["Stock Name".bold, "Ticker".bold, "Stock Name".bold, "Ticker".bold] do |t|
+    t << ['Apple', 'AAPL', 'Amazon', 'AMZN']
+    t << :separator
+    t.add_row ['Microsoft', 'MSFT', 'Alphabet', 'GOOG']
+    t.add_separator
+    t.add_row ['Facebook', 'FB', 'Activision Blizzard', 'ATVI']
+    t.add_separator
+    t.add_row ['Cisco Systems', 'CSCO', 'Intel Corp', 'INTC']
+    t.add_separator
+    t.add_row ['Netflix Inc', 'NFLX', 'NVIDIA Corp', 'NVDA']
+    t.add_separator
+    t.add_row ['PepsiCo', 'PEP', 'Amgen', 'AMGN']
+    t.add_separator
+    t.add_row ['Broadcom', 'AVGO', 'QUALCOMM', 'QCOM']
+    t.add_separator
+    t.add_row ['Costco', 'COST', 'eBay', 'EBAY']
+    t.add_separator
+    t.add_row ['Tesla Inc', 'TSLA', 'Comcast Corp', 'CMCSA']
+    t.add_separator
+    t.add_row ['Adobe Systems', 'ADBE', 'Baidu Inc ADR', 'BIDU']
+    t.add_separator
+    t.add_row ['Symantec Corp', 'SYMC', 'Starbucks Corp', 'SBUX']
+    t.add_separator
+    t.add_row ['PayPal Holdings', 'PYPL', 'Gilead Sciences', 'GILD']
+    t.add_separator
+    t.add_row ['Booking Holdings', 'BKNG', 'T-Mobile US Inc', 'TMUS']
+    t.add_separator
+    t.add_row ['Micron Technology', 'MU', 'Electronic Arts', 'EA']
+    t.add_separator
+    t.add_row ['Western Digital', 'WDC', 'Seagate Technology', 'STX']
   end
   "\nHere is a list of stocks you can add to #{@portfolio_name}:\n".each_char do |c|
-      sleep 0.05
-      print c
-    end
-    puts"\n#{table}\n"
+    sleep 0.05
+    print c
+  end
+  puts"\n#{@table}\n"
 end
 
 def stock_info
@@ -98,9 +99,24 @@ def stock_info
     end
 end
 
-def gets_stock_info
-  gets.chomp
+def gets_stock_info ######### method to fix the invalid tickers
+  @array_of_tickers = ['AAPL', 'AMZN', 'MSFT', 'GOOG', 'FB', 'ATVI', 'CSCO', 'INTC', 'NFLX', 'NVDA', 'PEP', 'AMGN', 'AVGO', 'QCOM', 'COST', 'EBAY', 'TSLA', 'CMCSA', 'ADBE', 'BIDU', 'SYMC', 'SBUX', 'PYPL', 'GILD', 'BKNG', 'TMUS', 'MU', 'EA', 'WDC', 'STX']
+  user_input_ticker = gets.chomp.upcase
+  if @array_of_tickers.include?(user_input_ticker)
+    stock_hash = get_stock_from_api(user_input_ticker)
+    create_stock_instance_from_hash(stock_hash)
+    user_choice_1
+    user_path_1
+  else
+    puts "Sorry! We couldn't find your stock Ticker in our database."
+    print "Please insert a valid Ticker: "
+    gets_stock_info
+  end
 end
+
+# def gets_stock_info #original code and the above is experimenting
+#   gets.chomp
+# end
 
 def user_choice_1
   "You gonna buy any of it then or just stare at it all day?\n
@@ -123,6 +139,7 @@ def user_path_1 # stock = stock hash
       break # make sure to break so you don't ask again
     when "r"
       loop_1
+      gets_stock_info ########added by Dina
       break # and again
     else
       error_message
@@ -179,10 +196,6 @@ def current_portfolio_cash
   stock_quantity.times do
     @array_of_user_stocks << @stock_instance.name
   end
-  # @array_of_user_stocks << @stock_instance.name.times do |i|
-  #   i.stock_quantity
-  # end
-  # add .times_do(stock_quantity) to end
 
   @stock_hash = {}
   @array_of_user_stocks.each do |ticker|
@@ -223,10 +236,10 @@ BIG BOSS, will DEAL with you Shortly!\n".each_char do |c|
   end
 end
 
-
-def user_portfolio
-  display_portfolio
-end
+####### commented out by Dina
+# def user_portfolio
+#   display_portfolio
+# end
 
 def continue_or_exit
   print "Do want to continue or exit?
@@ -247,8 +260,10 @@ def user_path_2 # stock = stock hash
     case input.downcase
     when "c"
       loop_1
+      gets_stock_info ######addeded by dina
       current_portfolio_cash
-      user_portfolio
+      # user_portfolio #######commented out by Dina
+      display_portfolio
       continue_or_exit
       user_path_2
       break # make sure to break so you don't ask again
