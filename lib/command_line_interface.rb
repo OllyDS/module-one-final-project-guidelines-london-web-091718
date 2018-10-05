@@ -5,7 +5,7 @@ def welcome # Puts out welcome message
   "Welcome to the big leagues kiddo,
 As it's your first day we'll start you off small.
 Here's a few quid from the NHS pension pot to gamble on the markets.\n".each_char do |c|
-  sleep 0.05
+  sleep 0.03
   print c
   end
 end
@@ -13,7 +13,7 @@ end
 def portfolio_name
   "\nGive your Portfolio a name, and make it good!
 We don't want it making our company look ****!: ".each_char do |c|
-    sleep 0.05
+    sleep 0.03
     print c
   end
 end
@@ -31,19 +31,9 @@ def gets_portfolio_name
   @portfolio_name = pn.name
 end
 
-# def output_portfolio_name(input) #Outputs Portfolio name
-#   puts "\nHere is a list of stocks you can add to #{input}:\n"
-# end
-
 def loop_1
   stocks_list_table   #Displays table of stocks available
   stock_info  #Asks user for stock Ticker
-  # The below code is the original master
-  # stock_ticker = gets_stock_info.upcase  #User enters Ticker
-  # stock_hash = get_stock_from_api(stock_ticker)   #Gets stock API info
-  # create_stock_instance_from_hash(stock_hash)   #Saves to stock .db
-  # user_choice_1   #Asks user if they want to Buy or Return
-  # user_path_1    #Buy menu or Return to stock table.
 end
 
 def create_stock_instance_from_hash(stock_hash)
@@ -86,7 +76,7 @@ def stocks_list_table
     t.add_row ['Western Digital', 'WDC', 'Seagate Technology', 'STX']
   end
   "\nHere is a list of stocks you can add to #{@portfolio_name}:\n".each_char do |c|
-    sleep 0.05
+    sleep 0.03
     print c
   end
   puts"\n#{@table}\n"
@@ -94,7 +84,7 @@ end
 
 def stock_info
   "\nEnter the Ticker of a stock you want to get info on: ".bold.each_char do |c|
-      sleep 0.05
+      sleep 0.03
       print c
     end
 end
@@ -108,20 +98,16 @@ def gets_stock_info ######### method to fix the invalid tickers
     user_choice_1
     user_path_1
   else
-    puts "Sorry! We couldn't find your stock Ticker in our database."
+    puts "\nSorry! We couldn't find your stock Ticker in our database.\n".red
     print "Please insert a valid Ticker: "
     gets_stock_info
   end
 end
 
-# def gets_stock_info #original code and the above is experimenting
-#   gets.chomp
-# end
-
 def user_choice_1
   "You gonna buy any of it then or just stare at it all day?\n
 Enter 'B' to Buy Stock or 'R' to Return if you're scared: ".each_char do |c|
-    sleep 0.05
+    sleep 0.02
     print c
   end
 end
@@ -139,7 +125,7 @@ def user_path_1 # stock = stock hash
       break # make sure to break so you don't ask again
     when "r"
       loop_1
-      gets_stock_info ########added by Dina
+      gets_stock_info
       break # and again
     else
       error_message
@@ -161,17 +147,17 @@ def buy_stock_quantity #Asks the user for quantity to buy.
   @name = @stock_instance[:name]
   @price = @stock_instance[:price]
 
-  "\nHow much you wanna buy then?
+  "\nHow much you wanna buy then?\n
 Smallest is 1 share, Largest is 1,000, Don't want you getting burnt on day 1.\n".each_char do |c|
-    sleep 0.05
+    sleep 0.02
     print c
   end
   "\nCurrent cash balance is $#{@portfolio_cash.round(2)}.\n".bold.each_char do |c|
-      sleep 0.05
+      sleep 0.02
       print c
     end
   "\nDon't spend it all at once junior!\n".each_char do |c|
-      sleep 0.05
+      sleep 0.02
       print c
     end
   print "\n
@@ -186,11 +172,20 @@ Smallest is 1 share, Largest is 1,000, Don't want you getting burnt on day 1.\n"
   end
 end
 
+# def quantity_error
+#   print "\nInvalid Amount!
+# You're obvioulsy having trouble following simple instructions!
+# Lets try this again shall we?".red
+# end
 
 def current_portfolio_cash
   stock_quantity = gets_quantity
   if stock_quantity > 1000
     stock_quantity = 1000
+  # || stock_quantity < 1  || stock_quantity.class != Integer
+  #   quantity_error
+  #   sleep 0.5
+  #   user_path_1
   end
 
   stock_quantity.times do
@@ -219,7 +214,7 @@ def current_portfolio_cash
   else
     "\nOh dear, you've only gone and blown your BUDGET PUNK!\n
 BIG BOSS, will DEAL with you Shortly!\n".each_char do |c|
-  sleep 0.05
+  sleep 0.03
   print c
   end
     sleep(1)
@@ -235,11 +230,6 @@ BIG BOSS, will DEAL with you Shortly!\n".each_char do |c|
     exit
   end
 end
-
-####### commented out by Dina
-# def user_portfolio
-#   display_portfolio
-# end
 
 def continue_or_exit
   print "Do want to continue or exit?
@@ -260,9 +250,8 @@ def user_path_2 # stock = stock hash
     case input.downcase
     when "c"
       loop_1
-      gets_stock_info ######addeded by dina
+      gets_stock_info
       current_portfolio_cash
-      # user_portfolio #######commented out by Dina
       display_portfolio
       continue_or_exit
       user_path_2
@@ -292,7 +281,7 @@ def display_portfolio
     t.add_row ["Remaining Cash Balance: ".bold, "$#{@portfolio_cash.round(2)}".bold]
   end
   "\nHere is your current Portfolio:".each_char do |c|
-      sleep 0.05
+      sleep 0.03
       print c
   end
   puts "\n#{table}\n"

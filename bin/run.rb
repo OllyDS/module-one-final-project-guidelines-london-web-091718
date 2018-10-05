@@ -4,9 +4,8 @@ welcome
 portfolio_name
 gets_portfolio_name
 loop_1
-gets_stock_info #added by dina
+gets_stock_info
 current_portfolio_cash
-# user_portfolio ####Dina
 display_portfolio
 continue_or_exit
 user_path_2
