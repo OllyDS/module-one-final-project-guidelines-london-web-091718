@@ -31,9 +31,9 @@ def gets_portfolio_name
   @portfolio_name = pn.name
 end
 
-def loop_1
-  stocks_list_table   #Displays table of stocks available
-  stock_info  #Asks user for stock Ticker
+def loop_1 # Isn't actually even a loop :/
+  stocks_list_table # Displays table of stocks available
+  stock_info # Asks user for stock Ticker
 end
 
 def create_stock_instance_from_hash(stock_hash)
@@ -147,16 +147,19 @@ def buy_stock_quantity #Asks the user for quantity to buy.
   @name = @stock_instance[:name]
   @price = @stock_instance[:price]
 
+  responses_array_1 = ["Don't want you getting burnt on day 1", "Can't have you losing it all in one go!", "You're probably useless anyway!", "Don't screw it up!"]
+  responses_array_2 = ["Don't spend it all at once junior!", "That's my kids pocket money you're spending!", "Awww junior's first day...cute", "Really...."]
+
   "\nHow much you wanna buy then?\n
-Smallest is 1 share, Largest is 1,000, Don't want you getting burnt on day 1.\n".each_char do |c|
+Smallest is 1 share, Largest is 1,000! #{responses_array_1.sample}\n".each_char do |c|
     sleep 0.02
     print c
   end
-  "\nCurrent cash balance is $#{@portfolio_cash.round(2)}.\n".bold.each_char do |c|
+  "\nCurrent cash balance is $#{@portfolio_cash.round(2)}\n".bold.each_char do |c|
       sleep 0.02
       print c
     end
-  "\nDon't spend it all at once junior!\n".each_char do |c|
+  "\n#{responses_array_2.sample}\n".each_char do |c|
       sleep 0.02
       print c
     end
@@ -205,10 +208,13 @@ def current_portfolio_cash
     PortfolioStock.create(portfolio: @portfolio_hash, stock: @stock_instance)
   end
 
+  responses_array_3 = ["WAHEY! Easy there big spender", "Blimey, you'll cost me more than my fifth divorce!", "You trying to annoy me?", "Terrible choice!"]
+
   buy_value = stock_quantity * @price
   @portfolio_cash -= buy_value
   if @portfolio_cash > 0.0
-    puts "\nWAHEY! Easy there big spender\nYour remaining cash is: $#{@portfolio_cash.round(2)}\n"
+    puts "\n#{responses_array_3.sample}\n
+Your remaining cash is: $#{@portfolio_cash.round(2)}\n"
     db_portfolio_cash = Portfolio.find_by(name: @portfolio_name)
     db_portfolio_cash.update(cash: @portfolio_cash)
   else
@@ -232,7 +238,7 @@ BIG BOSS, will DEAL with you Shortly!\n".each_char do |c|
 end
 
 def continue_or_exit
-  print "Do want to continue or exit?
+  print "\nDo want to continue or exit?
 Type 'C' to Continue, or 'E' to Exit: "
 end
 
@@ -286,7 +292,6 @@ def display_portfolio
   end
   puts "\n#{table}\n"
 end
-
 
 #################################
 def wipe_everything_after_session
