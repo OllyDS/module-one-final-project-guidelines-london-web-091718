@@ -231,6 +231,7 @@ BIG BOSS, will DEAL with you Shortly!\n".each_char do |c|
     system 'figlet 1'
     sleep(1)
     system 'clear'
+    system 'open sounds/firededited.mp3'
     system 'figlet YOURE FIRED!!!'
     wipe_everything_after_session
     exit
